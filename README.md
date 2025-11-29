@@ -18,7 +18,7 @@ python -m pip install --upgrade pip
 python main.py path/to/file.torrent output_file.iso
 ```
 
-Pass `-v/--verbose` for detailed progress logs while downloading.
+Logging is verbose/colorful by default. Pass `-q/--quiet` to reduce output.
 
 ## Tests
 
