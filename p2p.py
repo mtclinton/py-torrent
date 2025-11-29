@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from typing import List
 
 from client import Client
+from console import colorize
 from message import MessageID, parse_have, parse_piece
 from peers import Peer
 
@@ -177,8 +178,15 @@ class Torrent:
             buf[begin:end] = result.data
             completed += 1
             percent = (completed / total_pieces) * 100
+            bar = self._format_progress_bar(percent)
+            colored_percent = colorize(f"{percent:05.2f}%", "cyan" if percent < 100 else "green", bold=True)
             logging.info(
-                "(%0.2f%%) Downloaded piece #%d", percent, result.index
+                "%s %s Downloaded piece #%d (%d/%d)",
+                colored_percent,
+                bar,
+                result.index,
+                completed,
+                total_pieces,
             )
 
         for _ in threads:
@@ -187,5 +195,10 @@ class Torrent:
             thread.join(timeout=1)
 
         return bytes(buf)
+
+    def _format_progress_bar(self, percent: float, width: int = 30) -> str:
+        filled = int(width * percent / 100)
+        bar = "█" * filled + "-" * (width - filled)
+        return colorize(bar, "magenta")
 
 

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import argparse
-import logging
 import sys
 
+from console import configure_logging
 from torrentfile import open_torrent
 
 
@@ -16,10 +16,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    logging.basicConfig(
-        level=logging.INFO if args.verbose else logging.WARNING,
-        format="%(asctime)s %(levelname)s %(message)s",
-    )
+    configure_logging(verbose=args.verbose)
 
     torrent = open_torrent(args.torrent)
     torrent.download_to_file(args.output)
