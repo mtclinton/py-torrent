@@ -15,7 +15,7 @@ python -m venv .venv
 . .venv/bin/activate
 python -m pip install --upgrade pip
 
-python main.py path/to/file.torrent output_file.iso
+python main.py debian-13.2.0-amd64-netinst.iso.torrent debian.iso
 ```
 
 Logging is verbose/colorful by default. Pass `-q/--quiet` to reduce output.
